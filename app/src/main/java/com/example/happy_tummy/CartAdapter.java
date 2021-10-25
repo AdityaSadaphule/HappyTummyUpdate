@@ -24,7 +24,6 @@ public class CartAdapter extends BaseAdapter {
     Context context;
     List<Sandwich> sandwichList;
     LayoutInflater inflater;
-    int totalPrice = 0;
 
     public CartAdapter(Context context, List<Sandwich> sandwichList) {
         this.context = context;
@@ -61,6 +60,7 @@ public class CartAdapter extends BaseAdapter {
         Button deleteSandwich = sandwichView.findViewById(R.id.delete_sandwich);
         Button changeSandwich = sandwichView.findViewById(R.id.change_sandwich);
         TextView sandwichQuantityText = sandwichView.findViewById(R.id.sandwich_quantity);
+        TextView sandwichAmountText = sandwichView.findViewById(R.id.sandwich_amount);
         TextView sandwichPriceText = sandwichView.findViewById(R.id.sandwich_price);
         EditText sandwichName = sandwichView.findViewById(R.id.sandwich_name);
         ListView sandwichItemPreview = sandwichView.findViewById(R.id.sandwich_item_preview);
@@ -78,12 +78,13 @@ public class CartAdapter extends BaseAdapter {
         ingredientList.addAll(sandwichList.get(position).addOns);
 
 
+        sandwichPriceText.setText("Rs."+Integer.toString(sandwichList.get(position).price));
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(sandwichList.get(position).quantity<=50) sandwichList.get(position).quantity++;
                 sandwichQuantityText.setText(Integer.toString(sandwichList.get(position).quantity));
-                sandwichPriceText.setText(Integer.toString(sandwichList.get(position).price * sandwichList.get(position).quantity));
+                sandwichAmountText.setText(Integer.toString(sandwichList.get(position).price * sandwichList.get(position).quantity));
             }
         });
 
@@ -92,7 +93,7 @@ public class CartAdapter extends BaseAdapter {
             public void onClick(View view) {
                 if(sandwichList.get(position).quantity>1) sandwichList.get(position).quantity--;
                 sandwichQuantityText.setText(Integer.toString(sandwichList.get(position).quantity));
-                sandwichPriceText.setText(Integer.toString(sandwichList.get(position).price * sandwichList.get(position).quantity));
+                sandwichAmountText.setText(Integer.toString(sandwichList.get(position).price * sandwichList.get(position).quantity));
             }
         });
 
@@ -119,7 +120,7 @@ public class CartAdapter extends BaseAdapter {
         });
 
 
-        sandwichPriceText.setText(Integer.toString(sandwichList.get(position).price * sandwichList.get(position).quantity));
+        sandwichAmountText.setText(Integer.toString(sandwichList.get(position).price * sandwichList.get(position).quantity));
         SandwichListAdapter sandwichListAdapter = new SandwichListAdapter(sandwichView.getContext(), ingredientList);
         sandwichItemPreview.setAdapter(sandwichListAdapter);
 
